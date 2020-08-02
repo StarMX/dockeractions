@@ -25,16 +25,19 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-
+      - name: Set up docker buildx
+        id: buildx
+        uses: crazy-max/ghaction-docker-buildx@v1
+        with:
+          buildx-version: latest
       - name: Run tests
         run: |
-          if [ -f docker-compose.test.yml ]; then
-            docker-compose --file docker-compose.test.yml build
-            docker-compose --file docker-compose.test.yml run sut
-          else
-            docker build --platform linux/arm64 -t starz/cloudreve:arm64v8 . --file Dockerfile
-          fi
-
+          REPO_NAME="starz/cloudreve"
+          docker buildx build \
+            --platform linux/arm64 \
+            -t ${REPO_NAME}:arm64v8-unstable -t ${REPO_NAME}:arm64v8-unstable-${GITHUB_SHA} \
+            --push \
+            . -f Dockerfile
   # Push image to GitHub Packages.
   # See also https://docs.docker.com/docker-hub/builds/
   push:
