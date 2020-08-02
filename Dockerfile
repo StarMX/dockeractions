@@ -9,9 +9,9 @@ RUN apk update \
 
 RUN git clone --recurse-submodules https://github.com/cloudreve/Cloudreve.git
 
-RUN cd ./Cloudreve/assets \
-    && yarn install --network-timeout 1000000 \
-    && yarn run build
+#RUN cd ./Cloudreve/assets \
+#    && yarn install --network-timeout 1000000 \
+#    && yarn run build
 
 RUN cd ./Cloudreve \
 #    && go get github.com/rakyll/statik \
