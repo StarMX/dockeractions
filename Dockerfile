@@ -18,7 +18,7 @@ RUN cd ./Cloudreve \
     && statik -src=assets/ -include=*.html,*.js,*.json,*.css,*.png,*.svg,*.ico -f \
     && git checkout ${CLOUDREVE_VERSION} \
     && export COMMIT_SHA=$(git rev-parse --short HEAD) \
-    && go build -a -o cloudreve -ldflags "-X 'github.com/HFO4/cloudreve/pkg/conf.BackendVersion=$CLOUDREVE_VERSION' -X 'github.com/HFO4/cloudreve/pkg/conf.LastCommit=$COMMIT_SHA'"
+    && go build -a -o cloudreve -ldflags "-X 'github.com/HFO4/cloudreve/pkg/conf.BackendVersion=$CLOUDREVE_VERSION' -X 'github.com/HFO4/cloudreve/pkg/conf.LastCommit=$COMMIT_SHA' -linkmode 'external' -extldflags '-static'"
 
 FROM arm64v8/alpine:3.12
 
